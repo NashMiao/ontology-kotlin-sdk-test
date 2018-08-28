@@ -1,9 +1,9 @@
-package main.kotlin.demo
+package demo
 
-import demo.testRPC
+import com.github.ontio.OntSdk
 
-fun testRPC(){
-    val testRPC: testRPC = testRPC()
+fun runTestRPC() {
+    val testRPC: demo.testRPC = testRPC()
     testRPC.testGetVersion()
     testRPC.testGetNodeCount()
     testRPC.testGetBlockByHash()
@@ -19,6 +19,24 @@ fun testRPC(){
     testRPC.testSendRawTransactionPreExec()
 }
 
+fun runTestRestful() {
+    val testRestful: demo.testRestful = testRestful()
+    testRestful.testGetVersion()
+    testRestful.testGetNodeCount()
+    testRestful.testGetBlockByHash()
+    testRestful.testGetBlockByHeight()
+    testRestful.testGetBlockHeight()
+    testRestful.testGetBalance()
+    testRestful.testGetAllowance()
+    testRestful.testGetStorage()
+    testRestful.testGetSmartCodeEvent()
+    testRestful.testGetTransaction()
+    testRestful.testGetMerkleProof()
+    testRestful.testSendRawTransaction()
+    testRestful.testSendRawTransactionPreExec()
+}
+
 fun main(args: Array<String>) {
-    main.kotlin.demo.testRPC()
+    demo.runTestRPC()
+    demo.runTestRestful()
 }
