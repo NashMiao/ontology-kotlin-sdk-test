@@ -84,6 +84,22 @@ fun testGetSmartCodeEvent() {
     println(eventByHeight)
 }
 
+fun testGetTransaction() {
+    OntSdk.setConnectTestNet()
+    val txHash = "65d3b2d3237743f21795e344563190ccbe50e9930520b8525142b075433fdd74"
+    val transaction = OntSdk.rpc.getTransaction(txHash)
+    print("Transaction: ")
+    println(transaction)
+}
+
+fun testGetMerkleProof() {
+    OntSdk.setConnectTestNet()
+    val txHash = "65d3b2d3237743f21795e344563190ccbe50e9930520b8525142b075433fdd74"
+    val proof = OntSdk.rpc.getMerkleProof(txHash)
+    print("MerkleProof: ")
+    println(proof)
+}
+
 fun testSendRawTransaction() {
     OntSdk.setConnectTestNet()
     val privateKey = "523c5fcf74823831756f0bcb3634234f10b3beb1c05595058534577752ad2d9f"
@@ -98,6 +114,20 @@ fun testSendRawTransaction() {
     println(result)
 }
 
+fun testSendRawTransactionPreExec() {
+    OntSdk.setConnectTestNet()
+    val privateKey = "523c5fcf74823831756f0bcb3634234f10b3beb1c05595058534577752ad2d9f"
+    val payer = Account(Helper.hexToBytes(privateKey), SignatureScheme.SHA256WITHECDSA)
+    val b58Payer = payer.addressU160.toBase58()
+    val b58Recv = "AazEvfQPcQ2GEFFPLF1ZLwQ7K5jDn81hve"
+    println("balance: " + OntSdk.rpc.getBalance(payer.addressU160.toBase58()))
+    val transaction = Ont.makeTransfer(b58Payer, b58Recv, 1, b58Payer, 20000, 500)
+    OntSdk.signTx(transaction, arrayOf(arrayOf(payer)))
+    val result = OntSdk.rpc.sendRawTransactionPreExec(transaction.toHexString())
+    print("sendRawTransactionPreExec: ")
+    println(result)
+}
+
 fun main(args: Array<String>) {
     testGetVersion()
     testGetNodeCount()
@@ -108,5 +138,8 @@ fun main(args: Array<String>) {
     testGetAllowance()
     testGetStorage()
     testGetSmartCodeEvent()
+    testGetTransaction()
+    testGetMerkleProof()
     testSendRawTransaction()
+    testSendRawTransactionPreExec()
 }
