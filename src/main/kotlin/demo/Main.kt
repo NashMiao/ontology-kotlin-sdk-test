@@ -38,12 +38,13 @@ fun runTestRestful() {
 
 fun runTestNeoVm() {
     val testNeoVm: demo.TestNVm = TestNVm()
-//    testNeoVm.testSendTransaction()
-    testNeoVm.testInvokeTransaction()
+    testNeoVm.testMakeDeployTransaction()
+    testNeoVm.testMakeInvokeTransaction()
+    testNeoVm.testSendTransaction()
 }
 
 fun main(args: Array<String>) {
-//    demo.runTestRPC()
-//    demo.runTestRestful()
+    demo.runTestRPC()
+    demo.runTestRestful()
     demo.runTestNeoVm()
 }
