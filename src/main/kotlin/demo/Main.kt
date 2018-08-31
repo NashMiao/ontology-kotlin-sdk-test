@@ -38,7 +38,7 @@ fun runTestRestful() {
 
 fun runTestNeoVm() {
     val testNeoVm: demo.TestNVm = TestNVm()
-    testNeoVm.testSendTransaction()
+//    testNeoVm.testSendTransaction()
     testNeoVm.testInvokeTransaction()
 }
 

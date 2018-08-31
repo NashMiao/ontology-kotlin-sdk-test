@@ -4,6 +4,9 @@
 
 - [ontology-kotlin-sdk NeoVm Testing](#ontology-kotlin-sdk-neovm-testing)
     - [Overview](#overview)
+    - [sendRawTransaction](#sendrawtransaction)
+        - [Test Code](#test-code)
+        - [Test Result](#test-result)
     - [](#)
         - [Test Code](#test-code)
         - [Test Result](#test-result)
@@ -22,7 +25,7 @@
 | :-------------: | :------------------: |
 | :hatched_chick: | sendRawTransaction() |
 
-## 
+## sendRawTransaction
 
 ### Test Code
 
@@ -53,3 +56,45 @@ sendRawTransaction: true
 POST url=http://polaris1.ont.io:20336,{"jsonrpc":"2.0","method":"getcontractstate","params":["362cb5608b3eca61d4846591ebb49688900fedd0",1],"id":1}
 Contract: {"NeedStorage":true,"Email":"XXX@XXXX.com","Description":"Hello World","CodeVersion":"1.0","Author":"Tester","Code":"54c56b6c766b00527ac46c766b51527ac4616c766b00c36c766b52527ac46c766b52c30548656c6c6f87630600621a006c766b51c300c36165230061516c766b53527ac4620e00006c766b53527ac46203006c766b53c3616c756651c56b6c766b00527ac46151c576006c766b00c3c461681553797374656d2e52756e74696d652e4e6f7469667961616c7566","Name":"MyHello"}
 ```
+
+## 
+
+### Test Code
+
+```Kotlin
+fun testInvokeTransaction() {
+    OntSdk.setConnectTestNet()
+    val codeHex = "54c56b6c766b00527ac46c766b51527ac4616c766b00c36c766b52527ac46c766b52c30548656c6c6f87630600621a006c766b51c300c36165230061516c766b53527ac4620e00006c766b53527ac46203006c766b53c3616c756651c56b6c766b00527ac46151c576006c766b00c3c461681553797374656d2e52756e74696d652e4e6f7469667961616c7566"
+    val abi = "{\"hash\":\"0x362cb5608b3eca61d4846591ebb49688900fedd0\",\"entrypoint\":\"Main\",\"functions\":[{\"name\":\"Main\",\"parameters\":[{\"name\":\"operation\",\"type\":\"String\"},{\"name\":\"args\",\"type\":\"Array\"}],\"returntype\":\"Any\"},{\"name\":\"Hello\",\"parameters\":[{\"name\":\"msg\",\"type\":\"String\"}],\"returntype\":\"Void\"}],\"events\":[]}"
+    val abiInfo = JSON.parseObject(abi, AbiInfo::class.java)
+    val func = abiInfo.getFunction("Hello")
+    func!!.setParamsValue("value")
+    val codeAddress = Address.AddressFromVmCode(codeHex).toHexString()
+    val result = NeoVm.sendTransaction(codeAddress, null, null, 0, 0, func, true)
+    println(result)
+}
+```
+
+### Test Result
+
+```bash
+POST url=http://polaris1.ont.io:20336,{"jsonrpc":"2.0","method":"sendrawtransaction","params":["00d1a861a4b1000000000000000000000000000000000000000000000000000000000000000000000000230576616c756551c10548656c6c6f67362cb5608b3eca61d4846591ebb49688900fedd00000",1],"id":1}
+Exception in thread "main" com.github.ontio.network.exception.RpcException: {"result":"","id":1,"error":47001,"jsonrpc":"2.0","desc":"SMARTCODE EXEC ERROR"}
+	at com.github.ontio.network.rpc.Interfaces.call(Interfaces.kt:54)
+	at com.github.ontio.network.rpc.RpcClient.sendRawTransaction(RpcClient.kt:47)
+	at com.github.ontio.sdk.manager.ConnectMgr.sendRawTransactionPreExec(ConnectMgr.kt:170)
+	at com.github.ontio.smartcontract.NeoVm.sendTransaction(NeoVm.kt:43)
+	at demo.TestNVm.testInvokeTransaction(testNeoVm.kt:39)
+	at demo.MainKt.runTestNeoVm(Main.kt:42)
+	at demo.MainKt.main(Main.kt:48)
+
+Process finished with exit code 1
+```
+
+Kotlin SDK:
+
+![Alt text](../img/neoVmSendTransaction_1.png)
+
+Python SDK:
+
+![Alt text](../img/neoVmSendTransaction_2.png)
