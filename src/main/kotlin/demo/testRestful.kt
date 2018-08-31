@@ -6,9 +6,9 @@ import com.github.ontio.common.Helper
 import com.github.ontio.crypto.SignatureScheme
 import com.github.ontio.smartcontract.nativevm.Ont
 
-class testRestful {
+class TestRestful {
     fun testGetVersion() {
-        val restUrl = "http://polaris3.ont.io:20334"
+        val restUrl = "http://polaris1.ont.io:20334"
         OntSdk.setRestful(restUrl)
         val version = OntSdk.restful.getVersion()
         print("Version: ")

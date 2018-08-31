@@ -3,7 +3,7 @@ package demo
 import com.github.ontio.OntSdk
 
 fun runTestRPC() {
-    val testRPC: demo.testRPC = testRPC()
+    val testRPC: demo.TestRPC = TestRPC()
     testRPC.testGetVersion()
     testRPC.testGetNodeCount()
     testRPC.testGetBlockByHash()
@@ -20,7 +20,7 @@ fun runTestRPC() {
 }
 
 fun runTestRestful() {
-    val testRestful: demo.testRestful = testRestful()
+    val testRestful: demo.TestRestful = TestRestful()
     testRestful.testGetVersion()
     testRestful.testGetNodeCount()
     testRestful.testGetBlockByHash()
@@ -36,7 +36,14 @@ fun runTestRestful() {
     testRestful.testSendRawTransactionPreExec()
 }
 
+fun runTestNeoVm() {
+    val testNeoVm: demo.TestNVm = TestNVm()
+    testNeoVm.testSendTransaction()
+    testNeoVm.testInvokeTransaction()
+}
+
 fun main(args: Array<String>) {
-    demo.runTestRPC()
-    demo.runTestRestful()
+//    demo.runTestRPC()
+//    demo.runTestRestful()
+    demo.runTestNeoVm()
 }

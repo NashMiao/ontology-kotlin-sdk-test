@@ -6,7 +6,7 @@ import com.github.ontio.common.Helper
 import com.github.ontio.crypto.SignatureScheme
 import com.github.ontio.smartcontract.nativevm.Ont
 
-class testRPC {
+class TestRPC {
     fun testGetVersion() {
         OntSdk.setConnectTestNet()
         val version = OntSdk.rpc.getVersion()
